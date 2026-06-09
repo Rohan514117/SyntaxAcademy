@@ -1,6 +1,6 @@
 # Syntax Academy
 
-![Syntax Academy](syn/app1/static/img/logo-main.png)
+<img src="syn/app1/static/img/logo-main.png" alt="Syntax Academy" width="200">
 
 ![Python](https://img.shields.io/badge/python-3.11-blue.svg?style=flat-square)
 ![Django](https://img.shields.io/badge/django-4.2.27-green.svg?style=flat-square)

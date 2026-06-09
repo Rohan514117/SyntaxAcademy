@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login | Syntax Academy{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/auth-style.css' %}">
+<link rel="stylesheet" href="{% static 'css/hero-animation.css' %}">
+
+<div class="auth-container">
+    <!-- LEFT SIDE: Branding & Animation -->
+    <div class="auth-branding">
+        <div class="auth-canvas-container">
+            <canvas id="heroCanvas"></canvas>
+            <div class="glow-path" id="glowPath"></div>
+        </div>
+
+        <div class="ui-element ui-top-left" id="uiTop">&lt;system_init&gt; [SUCCESS]</div>
+        <div class="ui-element ui-bottom-right" id="uiBottom">&lt;data_flow&gt; synchronized</div>
+
+        <div class="branding-content">
+            <img src="{% static 'img/logo-main.png' %}" alt="Syntax Academy" class="auth-logo">
+            <h1>Code Your Future</h1>
+            <p>Build Beyond Limits with our premium, mentor-led curriculum designed for the next generation of
+                developers.</p>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE: Login Form -->
+    <div class="auth-form-side">
+        <div class="auth-form-bg">
+            <canvas id="formCanvas"></canvas>
+        </div>
+
+        <div class="glass-form-card">
+            <div class="form-header">
+                <h2>Welcome Back</h2>
+                <p>Enter your credentials to access your dashboard</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next|default:'' }}">
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" class="form-control-custom" placeholder="name@company.com"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="margin-bottom: 0;">Password</label>
+                        <a href="{% url 'forgot_password' %}"
+                            style="font-size: 0.8rem; color: var(--accent-cyan); text-decoration: none;">Forgot
+                            Password?</a>
+                    </div>
+                    <div style="position: relative;">
+                        <input type="password" id="password" name="password" class="form-control-custom"
+                            placeholder="••••••••" required>
+                        <i class="bi bi-eye" id="togglePass"
+                            style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-secondary);"></i>
+                    </div>
+                </div>
+
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <input type="checkbox" id="remember" name="remember"
+                        style="accent-color: var(--accent-cyan); cursor: pointer;">
+                    <label for="remember" style="margin-bottom: 0; cursor: pointer;">Remember me</label>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    Sign In
+                </button>
+
+                <div class="divider">
+                    <span>or continue with</span>
+                </div>
+
+                <div id="g_id_onload"
+                    data-client_id="442607639599-tnfjvn2kja7h2g581f0c18dne5qbq376.apps.googleusercontent.com"
+                    data-callback="handleGoogleLogin" data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_black"
+                    data-text="sign_in_with" data-shape="pill" data-logo_alignment="left"
+                    style="width: 100%; display: flex; justify-content: center;">
+                </div>
+            </form>
+
+            <div class="form-footer">
+                Don't have an account? <a
+                    href="{% url 'register' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Sign up for free</a>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+    function handleGoogleLogin(response) {
+        // Industry-standard: submit via hidden form for proper session/cookie handling
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/google-auth/';
+
+        var csrf = document.createElement('input');
+        csrf.type = 'hidden';
+        csrf.name = 'csrfmiddlewaretoken';
+        csrf.value = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        form.appendChild(csrf);
+
+        var cred = document.createElement('input');
+        cred.type = 'hidden';
+        cred.name = 'credential';
+        cred.value = response.credential;
+        form.appendChild(cred);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+<script src="{% static 'js/hero-animation.js' %}"></script>
+<script>
+    // Toggle Password Visibility
+    const togglePass = document.getElementById('togglePass');
+    const password = document.getElementById('password');
+
+    togglePass.addEventListener('click', function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('bi-eye');
+        this.classList.toggle('bi-eye-slash');
+    });
+
+    // Reuse animation for form side background
+    (function () {
+        const canvas = document.getElementById('formCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = canvas.parentElement.clientWidth;
+            height = canvas.height = canvas.parentElement.clientHeight;
+        }
+
+        class P {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.v = (Math.random() - 0.5) * 0.5;
+                this.s = Math.random() * 2;
+            }
+            draw() {
+                this.y -= this.v;
+                if (this.y < 0) this.y = height;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.s, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.2)';
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            resize();
+            for (let i = 0; i < 50; i++) particles.push(new P());
+            animate();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => p.draw());
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        init();
+    })();
+</script>
+
+{% if not_register %}
+<script>alert("{{ not_register }}");</script>
+{% endif %}
+
+{% if wrong %}
+<script>alert("{{ wrong }}");</script>
+{% endif %}
+
+{% endblock %}

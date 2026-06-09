@@ -1,0 +1,12 @@
+{% extends 'emails/base_email.html' %}
+{% block content %}
+<h1 style="color: #ffffff; font-size: 24px; margin-top: 0; margin-bottom: 20px;">Password Successfully Changed ✅</h1>
+<p style="margin-bottom: 15px;">Hi {{ user_name }},</p>
+<div style="background-color: rgba(108, 242, 194, 0.1); border-left: 4px solid #6cf2c2; padding: 15px 20px; margin: 25px 0; border-radius: 4px;">
+    <p style="margin: 0; color: #cfd8ff;">This email is to confirm that your Syntax Academy password has been changed successfully.</p>
+</div>
+<p style="margin-bottom: 25px;">You can now log in to your account using your new password. If you did not make this change, please contact our support team immediately.</p>
+<div style="text-align: center; margin: 35px 0;">
+    <a href="{{ login_url }}" class="button" style="background-color: #6aa8ff; color: #0b0f1a; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: bold; font-size: 16px; display: inline-block;">Log In to Your Account</a>
+</div>
+{% endblock %}

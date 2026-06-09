@@ -1,0 +1,11 @@
+{% extends 'emails/base_email.html' %}
+{% block content %}
+<h1 style="color: #ffffff; font-size: 24px; margin-top: 0; margin-bottom: 20px;">Congratulations, {{ user_name }}! 🎓</h1>
+<p style="margin-bottom: 25px;">You did it! You have successfully completed all the lessons and passed the final quiz for <strong>{{ course_name }}</strong> with a score of {{ score }}%.</p>
+<div style="text-align: center; background-color: rgba(106, 168, 255, 0.1); border: 1px solid rgba(106, 168, 255, 0.3); padding: 30px; border-radius: 12px; margin: 30px 0;">
+    <div style="font-size: 48px; margin-bottom: 15px;">🏆</div>
+    <h3 style="color: #6aa8ff; margin-top: 0; margin-bottom: 10px; font-size: 20px;">Your Certificate is Ready</h3>
+    <p style="margin-bottom: 0; color: #cfd8ff;">We've attached your official completion certificate to this email as a PDF document. You can download, print, or share it on your professional network.</p>
+</div>
+<p style="margin-bottom: 0;">We are incredibly proud of your hard work and dedication. Keep learning and building amazing things!</p>
+{% endblock %}

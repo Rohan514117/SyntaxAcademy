@@ -1,0 +1,92 @@
+/* Hero Animation Overlay */
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#heroCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* UI Elements for Hero Animation */
+.ui-element {
+    position: absolute;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 242, 255, 0.1);
+    border-radius: 6px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.7rem;
+    color: #00f2ff;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+    z-index: 3;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ui-element.visible {
+    opacity: 0.5;
+    transform: translateY(0);
+    animation: floatUI 6s infinite ease-in-out;
+}
+
+@keyframes floatUI {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    33% { transform: translateY(-5px) translateX(3px); }
+    66% { transform: translateY(3px) translateX(-2px); }
+}
+
+.ui-top-left { top: 120px; left: 60px; }
+.ui-bottom-right { bottom: 60px; right: 60px; }
+
+/* Glowing path effect */
+.glow-path {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 0;
+    background: linear-gradient(to bottom, transparent, #00f2ff, transparent);
+    box-shadow: 0 0 40px rgba(0, 242, 255, 0.6);
+    opacity: 0;
+    transition: height 2.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 2.5s ease;
+    z-index: 1;
+    animation: pulseGlow 4s infinite alternate ease-in-out;
+}
+
+@keyframes pulseGlow {
+    from { opacity: 0.2; box-shadow: 0 0 30px rgba(0, 242, 255, 0.4); }
+    to { opacity: 0.4; box-shadow: 0 0 60px rgba(0, 242, 255, 0.8); }
+}
+
+.glow-path.active {
+    height: 100%;
+    opacity: 0.4;
+}
+
+@media (max-width: 991px) {
+    .ui-element { display: none; }
+    .glow-path { width: 1px; }
+}

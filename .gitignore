@@ -1,0 +1,73 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg-info/
+*.egg
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+build/
+dist/
+downloads/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+.pytest_cache/
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+/media/
+media/
+staticfiles/
+
+# Node
+node_modules/
+
+# Env files
+.env
+
+# Mypy / type checkers
+.mypy_cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# OneDrive temp files
+~$*

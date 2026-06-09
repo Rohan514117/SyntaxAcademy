@@ -1,0 +1,11 @@
+{% extends 'emails/base_email.html' %}
+{% block content %}
+<h1 style="color: #ffffff; font-size: 24px; margin-top: 0; margin-bottom: 20px;">Welcome, {{ user_name }}! 🎉</h1>
+<p style="margin-bottom: 15px;">Your account has been successfully created. We are thrilled to have you join <span style="color: #6cf2c2; font-weight: bold;">Syntax Academy</span>.</p>
+<p style="margin-bottom: 25px;">Start exploring our premium courses, master new programming skills, and take your career to the next level.</p>
+<div style="text-align: center; margin: 35px 0;">
+    <a href="{{ login_url }}" class="button" style="background-color: #6cf2c2; color: #0b0f1a; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: bold; font-size: 16px; display: inline-block;">Get Started Now</a>
+</div>
+<p style="margin-bottom: 10px;">If you have any questions or need help, just reply to this email.</p>
+<p style="margin-bottom: 0;">Happy Learning,<br>The Syntax Academy Team</p>
+{% endblock %}

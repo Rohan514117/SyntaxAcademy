@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register | Syntax Academy{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/auth-style.css' %}">
+<link rel="stylesheet" href="{% static 'css/hero-animation.css' %}">
+
+<div class="auth-container">
+    <!-- LEFT SIDE: Branding & Animation -->
+    <div class="auth-branding">
+        <div class="auth-canvas-container">
+            <canvas id="heroCanvas"></canvas>
+            <div class="glow-path" id="glowPath"></div>
+        </div>
+
+        <div class="ui-element ui-top-left" id="uiTop">&lt;system_init&gt; [SUCCESS]</div>
+        <div class="ui-element ui-bottom-right" id="uiBottom">&lt;data_flow&gt; synchronized</div>
+
+        <div class="branding-content">
+            <img src="{% static 'img/logo-main.png' %}" alt="Syntax Academy" class="auth-logo">
+            <h1>Build Beyond Limits</h1>
+            <p>Join a community of forward-thinking developers and master the skills that define the future of
+                technology.</p>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE: Register Form -->
+    <div class="auth-form-side">
+        <div class="auth-form-bg">
+            <canvas id="formCanvas"></canvas>
+        </div>
+
+        <div class="glass-form-card" style="max-width: 540px; padding: 40px;">
+            <div class="form-header" style="margin-bottom: 30px;">
+                <h2>Start Your Journey</h2>
+                <p>Create your account and unlock a world of knowledge</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next|default:'' }}">
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" class="form-control-custom" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" class="form-control-custom" placeholder="john@example.com"
+                            required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" name="mobile" class="form-control-custom" placeholder="10-digit number"
+                            inputmode="numeric" pattern="[0-9]*" maxlength="10" data-numeric-only required>
+                    </div>
+                    <div class="form-group">
+                        <label>Experience Level</label>
+                        <select name="level" class="form-control-custom"
+                            style="appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22rgba(255%2C255%2C255%2C0.5)%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 15px center; background-size: 18px;"
+                            required>
+                            <option value="" disabled selected>Select level</option>
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="password" name="password" class="form-control-custom"
+                            placeholder="Minimum 8 characters" minlength="8" required>
+                        <i class="bi bi-eye" id="togglePass"
+                            style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-secondary);"></i>
+                    </div>
+                    <small
+                        style="display: block; margin-top: 5px; font-size: 0.75rem; color: var(--text-secondary);">Must
+                        include at least one special character.</small>
+                </div>
+
+                <div class="form-group" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px;">
+                    <input type="checkbox" id="terms" name="terms"
+                        style="accent-color: var(--accent-cyan); cursor: pointer; margin-top: 4px;" required>
+                    <label for="terms" style="margin-bottom: 0; cursor: pointer; font-size: 0.85rem;">I agree to the <a
+                            href="#" style="color: var(--accent-cyan); text-decoration: none;">Terms of Service</a> and
+                        <a href="#" style="color: var(--accent-cyan); text-decoration: none;">Privacy Policy</a></label>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    Create Account
+                </button>
+
+                <div class="divider">
+                    <span>or sign up with</span>
+                </div>
+
+                <div id="g_id_onload"
+                    data-client_id="442607639599-tnfjvn2kja7h2g581f0c18dne5qbq376.apps.googleusercontent.com"
+                    data-callback="handleGoogleLogin" data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_black"
+                    data-text="signup_with" data-shape="pill" data-logo_alignment="left"
+                    style="width: 100%; display: flex; justify-content: center;">
+                </div>
+            </form>
+
+            <div class="form-footer">
+                Already have an account? <a
+                    href="{% url 'login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Sign in here</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+    function handleGoogleLogin(response) {
+        // Industry-standard: submit via hidden form for proper session/cookie handling
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/google-auth/';
+
+        var csrf = document.createElement('input');
+        csrf.type = 'hidden';
+        csrf.name = 'csrfmiddlewaretoken';
+        csrf.value = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        form.appendChild(csrf);
+
+        var cred = document.createElement('input');
+        cred.type = 'hidden';
+        cred.name = 'credential';
+        cred.value = response.credential;
+        form.appendChild(cred);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+<script src="{% static 'js/hero-animation.js' %}"></script>
+<script>
+    // Toggle Password Visibility
+    const togglePass = document.getElementById('togglePass');
+    const password = document.getElementById('password');
+
+    togglePass.addEventListener('click', function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('bi-eye');
+        this.classList.toggle('bi-eye-slash');
+    });
+
+    // Numeric input only
+    document.addEventListener('DOMContentLoaded', function () {
+        const numericFields = document.querySelectorAll('input[data-numeric-only]');
+        numericFields.forEach(function (field) {
+            field.addEventListener('input', function () {
+                field.value = field.value.replace(/\D+/g, '');
+            });
+        });
+
+        // Password validation logic
+        const passwordRule = /^(?=.*[^A-Za-z0-9]).{8,}$/;
+        password.addEventListener('input', function () {
+            this.setCustomValidity(
+                passwordRule.test(this.value) ? '' : 'Include a special character.'
+            );
+        });
+    });
+
+    // Reuse animation for form side background
+    (function () {
+        const canvas = document.getElementById('formCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        function resize() {
+            width = canvas.width = canvas.parentElement.clientWidth;
+            height = canvas.height = canvas.parentElement.clientHeight;
+        }
+        class P {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.v = (Math.random() - 0.5) * 0.5;
+                this.s = Math.random() * 2;
+            }
+            draw() {
+                this.y -= this.v;
+                if (this.y < 0) this.y = height;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.s, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.2)';
+                ctx.fill();
+            }
+        }
+        function init() {
+            resize();
+            for (let i = 0; i < 50; i++) particles.push(new P());
+            animate();
+        }
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => p.draw());
+            requestAnimationFrame(animate);
+        }
+        window.addEventListener('resize', resize);
+        init();
+    })();
+</script>
+
+{% if saved %}
+<script>alert("{{ saved }}");</script>{% endif %}
+{% if error %}
+<script>alert("{{ error }}");</script>{% endif %}
+
+{% endblock %}

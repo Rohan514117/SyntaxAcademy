@@ -1,0 +1,292 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Syntax Academy{% endblock %}</title>
+
+    <link rel="icon" type="image/png" href="{% static 'img/logo-main.png' %}?v=2">
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        <!-- Google Font -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand brand-logo" href="{% url 'index' %}" style="display: flex; align-items: center; gap: 10px;">
+                    <img src="{% static 'img/logo-main.png' %}" alt="Syntax Academy" style="height: 65px; width: auto;">
+                    <span class="brand-syntax">Syntax</span>
+                    <span class="brand-academy">Academy</span>
+                </a>
+
+                <button class="navbar-toggler bg-light"
+                    data-bs-toggle="collapse" data-bs-target="#menu"></button>
+
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item"><a class="nav-link text-light"
+                                href="{% url 'index' %}">Home</a></li>
+                        <li class="nav-item nav-dropdown">
+                            <button type="button" class="nav-link text-light dropdown-trigger">Courses</button>
+                            <div class="nav-dropdown-menu">
+                                <a href="{% url 'all_courses' %}">Explore Courses</a>
+                                <a href="{% url 'my_enrolls' %}">My Enrolls</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-light"
+                                href="{% url 'contact' %}">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link text-light"
+                                href="{% url 'faq' %}">FAQ</a></li>
+                        <li class="nav-item"><a class="nav-link text-light"
+                                href="{% url "about" %}">About</a></li>
+                        <!-- Auth Buttons -->
+
+                        {% if login %}
+                            <li class="nav-item ms-4">
+                                {% if request.user.is_staff %}
+                                    <a href="{% url 'dashboard_home' %}" class="nav-auth-btn btn-outline">Dashboard</a>
+                                {% else %}
+                                    <a href="{% url 'profile' %}" class="nav-auth-btn btn-outline">Profile</a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item ms-2">
+                                <a href="{% url 'logout' %}" class="nav-auth-btn btn-solid">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item ms-4">
+                                <a href="{% url 'login' %}" class="nav-auth-btn btn-outline">Login</a>
+                            </li>
+                            <li class="nav-item ms-2">
+                                <a href="{% url 'register' %}" class="nav-auth-btn btn-solid">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    
+        {% block content %}
+    
+        {% endblock content %}
+
+
+        <!-- FOOTER -->
+        {% block footer %}
+        <footer class="site-footer">
+
+            <div class="container footer-top">
+
+                <!-- Brand -->
+                <div class="footer-col brand">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                        <img src="{% static 'img/logo-main.png' %}" alt="Syntax Academy" style="height: 65px; width: auto;">
+                        <h3 style="margin-bottom: 0;">Syntax Academy</h3>
+                    </div>
+                    <p>
+                        A beginner friendly platform to learn programming, build projects,
+                        and become job-ready without confusion.
+                    </p>
+
+                    <div class="socials">
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                        <a href="#"><i class="bi bi-github"></i></a>
+                        <a href="#"><i class="bi bi-discord"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'faq' %}">FAQ</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+
+
+                <!-- Contact -->
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul class="contact">
+                        <li><i class="bi bi-envelope"></i> support@syntaxacademy.com</li>
+                        <li><i class="bi bi-geo-alt"></i> India</li>
+                        <li><i class="bi bi-clock"></i> Mon – Sat</li>
+                    </ul>
+                </div>
+
+                <!-- Beginner Guide -->
+                <div class="footer-col guide-box">
+                    <h4>New To Programming?</h4>
+                    <p>
+                        Start from absolute basics — no prior experience required.
+                        Follow our beginner friendly path and build real projects.
+                    </p>
+
+                    <a href="{% url 'all_courses' %}" class="footer-start-btn">
+                        Start Learning <i class="bi bi-arrow-right-short"></i>
+                    </a>
+                </div>
+
+                <div class="footer-copy">
+                    © 2026 <span>Syntax Academy</span>. All Rights Reserved.
+                </div>
+
+
+        </footer>
+        {% endblock %}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const numericFields = document.querySelectorAll('input[data-numeric-only], textarea[data-numeric-only]');
+                const emailFields = document.querySelectorAll('input[type="email"]');
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+                const sanitizeNumericValue = function (field) {
+                    const digitsOnly = field.value.replace(/\D+/g, '');
+                    const maxLength = field.maxLength > 0 ? field.maxLength : null;
+                    field.value = maxLength ? digitsOnly.slice(0, maxLength) : digitsOnly;
+                };
+
+                const validateEmailValue = function (field) {
+                    field.value = field.value.replace(/\s+/g, '');
+
+                    if (!field.value) {
+                        field.setCustomValidity('');
+                        return;
+                    }
+
+                    field.setCustomValidity(
+                        emailPattern.test(field.value) ? '' : 'Enter a valid email address.'
+                    );
+                };
+
+                numericFields.forEach(function (field) {
+                    field.addEventListener('input', function () {
+                        sanitizeNumericValue(field);
+                    });
+
+                    field.addEventListener('keydown', function (event) {
+                        const allowedKeys = [
+                            'Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'
+                        ];
+
+                        if (allowedKeys.includes(event.key) || event.ctrlKey || event.metaKey) {
+                            return;
+                        }
+
+                        if (event.key.length === 1 && !/\d/.test(event.key)) {
+                            event.preventDefault();
+                        }
+                    });
+
+                    sanitizeNumericValue(field);
+                });
+
+                emailFields.forEach(function (field) {
+                    field.addEventListener('input', function () {
+                        validateEmailValue(field);
+                    });
+
+                    field.addEventListener('blur', function () {
+                        validateEmailValue(field);
+                    });
+
+                    validateEmailValue(field);
+                });
+            });
+        </script>
+        {% if auth_guard_enabled %}
+        <script>
+            (function () {
+                const loginUrl = "{{ auth_guard_login_url|escapejs }}";
+                const statusUrl = "{{ auth_guard_status_url|escapejs }}";
+                let authCheckInFlight = false;
+
+                const clearClientAuthState = function () {
+                    try {
+                        window.localStorage.removeItem("authToken");
+                        window.localStorage.removeItem("user");
+                        window.localStorage.removeItem("refreshToken");
+                    } catch (error) {}
+
+                    try {
+                        window.sessionStorage.removeItem("authToken");
+                        window.sessionStorage.removeItem("user");
+                        window.sessionStorage.removeItem("refreshToken");
+                    } catch (error) {}
+                };
+
+                const redirectToLogin = function (targetUrl) {
+                    clearClientAuthState();
+                    window.location.replace(targetUrl || loginUrl);
+                };
+
+                const verifyAuth = function () {
+                    if (authCheckInFlight || !statusUrl) {
+                        return;
+                    }
+
+                    authCheckInFlight = true;
+
+                    fetch(statusUrl, {
+                        credentials: "same-origin",
+                        cache: "no-store",
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    })
+                        .then(function (response) {
+                            if (!response.ok) {
+                                throw new Error("Unable to verify authentication.");
+                            }
+
+                            return response.json();
+                        })
+                        .then(function (data) {
+                            if (!data.authenticated) {
+                                redirectToLogin(data.login_url);
+                            }
+                        })
+                        .catch(function () {})
+                        .finally(function () {
+                            authCheckInFlight = false;
+                        });
+                };
+
+                verifyAuth();
+
+                window.addEventListener("pageshow", function (event) {
+                    if (event.persisted) {
+                        verifyAuth();
+                    }
+                });
+
+                document.addEventListener("visibilitychange", function () {
+                    if (document.visibilityState === "visible") {
+                        verifyAuth();
+                    }
+                });
+            })();
+        </script>
+        {% endif %}
+
+</body>
+</html>

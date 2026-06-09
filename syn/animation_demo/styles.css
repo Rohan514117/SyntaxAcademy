@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Source+Code+Pro:wght@400;600&display=swap');
+
+:root {
+    --bg-color: #0b0f1a;
+    --glow-color: #1a1f3c;
+    --accent-cyan: #00f2ff;
+    --accent-purple: #7000ff;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --font-main: 'Outfit', sans-serif;
+    --font-mono: 'Source Code Pro', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: radial-gradient(circle at center, var(--glow-color) 0%, var(--bg-color) 100%);
+}
+
+canvas {
+    display: block;
+}
+
+.overlay {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+}
+
+.hero-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 2s ease, transform 2s ease;
+}
+
+.hero-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+h1 {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    background: linear-gradient(to bottom, #ffffff 10%, #6e7a9d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(0, 242, 255, 0.4));
+    transition: letter-spacing 10s ease;
+}
+
+.hero-content.visible h1 {
+    letter-spacing: 0.15em;
+}
+
+.tagline {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* Glassmorphism elements */
+.ui-element {
+    position: absolute;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-cyan);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.ui-element.visible {
+    opacity: 1;
+}
+
+.ui-top-left { top: 40px; left: 40px; }
+.ui-bottom-right { bottom: 40px; right: 40px; }
+
+/* Glowing path effect */
+.glow-path {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 0;
+    background: linear-gradient(to bottom, transparent, var(--accent-cyan), transparent);
+    box-shadow: 0 0 30px var(--accent-cyan);
+    opacity: 0;
+    transition: height 2s ease, opacity 2s ease;
+}
+
+.glow-path.active {
+    height: 100vh;
+    opacity: 0.5;
+}
